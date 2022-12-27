@@ -5,13 +5,13 @@
 #define extend public
 #define implement public
 
-interface IInstance
+interface IObject
 {
 	virtual void acquire() = 0;
 	virtual void release() = 0;
 };
 
-interface ITool : extend IInstance
+interface ITool : extend IObject
 {
 	virtual void write() = 0;
 };
@@ -19,27 +19,18 @@ interface ITool : extend IInstance
 class Pen : implement ITool
 {
 	private:
-		int count;
+		int posX;
+		int posY;
+		int ref_count;
 		Pen(const Pen&);
 		Pen& operator=(const Pen&);
 	public:
 		Pen(void);
+		Pen(int, int);
 		virtual ~Pen(void);
 		void write(void);
 		void acquire(void);
 		void release(void);
 };
 
-class Pencil: implement ITool
-{
-	private:
-		int count;
-		Pencil(const Pencil&);
-		Pencil& operator=(const Pencil&);
-	public:
-		Pencil(void);
-		virtual ~Pencil(void);
-		void write(void);
-		void acquire(void);
-		void release(void);
-};
+ITool* createPen(int posX = 0, int posY = 0);
